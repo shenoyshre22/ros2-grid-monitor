@@ -64,3 +64,16 @@ cd ~/ros2_ws/src
 ros2 pkg create --build-type ament_cmake grid_interfaces
 mkdir -p grid_interfaces/srv
 touch grid_interfaces/srv/InjectError.srv
+```
+
+### STEP B: Build the Core Control Package (grid_monitor)
+Create the Python-based execution package linked to your newly defined interfaces:
+```bash
+cd ~/ros2_ws/src
+ros2 pkg create --build-type ament_python grid_monitor --dependencies rclpy std_msgs grid_interfaces
+touch grid_monitor/grid_monitor/voltage_simulator.py
+touch grid_monitor/grid_monitor/dashboard_gui.py
+```
+
+###STEP C: Make other necessary file changes
+make sure to change setup.py ,CMakeLists.txt and package.xml in both ``` grid_interfaces/package.xml ```  and in ```grid_monitor/package.xml```
