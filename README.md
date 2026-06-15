@@ -75,5 +75,42 @@ touch grid_monitor/grid_monitor/voltage_simulator.py
 touch grid_monitor/grid_monitor/dashboard_gui.py
 ```
 
-###STEP C: Make other necessary file changes
+### STEP C: Make other necessary file changes
 make sure to change setup.py ,CMakeLists.txt and package.xml in both ``` grid_interfaces/package.xml ```  and in ```grid_monitor/package.xml```
+
+
+### STEP D: run in two separarte terminals:
+make sure to run ```~/ros2_ws/install/setup.bash``` inside every single new terminal tab you open before typing the launch commands below.
+in Terminal 1:
+```bash 
+source ~/ros2_ws/install/setup.bash
+ros2 run grid_monitor voltage_simulator
+```
+
+in a new terminal , Terminal 2:
+```bash
+source ~/ros2_ws/install/setup.bash
+ros2 run grid_monitor dashboard_gui
+```
+
+
+### OUTPUTS:
+first case: Case 1 (Healthy State - Green Waveform):
+  <img width="1845" height="534" alt="image" src="https://github.com/user-attachments/assets/1f086228-69a5-40df-9909-4161f958fbb0" />
+
+    Explanation: The system displays a stable green sine wave because the injected error drop is at 9.2%, which keeps the voltage within the allowed operating parameters.
+
+    Why: Since 9.2% degradation is below the 10% critical threshold, the running average peak remains above 3.6V, maintaining a nominal system state and keeping the alarm silent.
+  
+
+
+Case 2 (Alarm State - Red Waveform):
+    <img width="1845" height="534" alt="image" src="https://github.com/user-attachments/assets/ddb199cf-148b-4b85-a4ea-8a49aa88d204" />
+
+    Explanation: The dashboard flashes a bright red waveform and throws a critical warning because a 17.2% grid error has been injected into the simulation pipeline.
+
+    Why: A drop of 17.2% drags the nominal voltage down significantly, causing the 200-peak rolling window average to fall to 3.31V (below the strict 3.6V safety boundary), which immediately triggers the brownout alert.
+    
+
+
+
